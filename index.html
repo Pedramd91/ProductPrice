@@ -21,27 +21,23 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 90%;
-            max-width: 400px;
+            max-width: 500px;
         }
-        input {
+        .form-group {
+            display: flex;
+            align-items: center;
             margin: 10px 0;
+        }
+        .form-group label {
+            width: 200px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        input[type="number"], input[type="text"] {
             padding: 10px;
-            width: 100%;
+            width: calc(100% - 220px); /* Adjusting width to fit alongside label */
             box-sizing: border-box;
             font-size: 16px;
-        }
-        button {
-            padding: 10px;
-            width: 100%;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
         }
         .result {
             margin-top: 20px;
@@ -62,13 +58,30 @@
 <body>
     <div class="container">
         <h2>Product Final Price Approximate Calculation</h2>
-        <input type="number" id="valueA" placeholder="Product price in (CAD)">
-        <input type="number" id="valueB" placeholder="Interest rate" value="1.2">
-        <input type="number" id="valueC" placeholder="Approximate weight (gram)">
-        <input type="number" id="valueD" placeholder="Shipping fee per kg" value="30">
-        <input type="number" id="valueE" placeholder="CAD/Toman conversion" value="42500">
-        <button onclick="calculate()">Calculate</button>
-        <input type="text" id="result" class="result-box" readonly placeholder="Result will be displayed here">
+        <div class="form-group">
+            <label for="valueA">Product price (CAD):</label>
+            <input type="number" id="valueA" placeholder="Enter product price in CAD">
+        </div>
+        <div class="form-group">
+            <label for="valueB">Interest rate:</label>
+            <input type="number" id="valueB" placeholder="Enter interest rate" value="1.2">
+        </div>
+        <div class="form-group">
+            <label for="valueC">Approximate weight (gram):</label>
+            <input type="number" id="valueC" placeholder="Enter weight in grams">
+        </div>
+        <div class="form-group">
+            <label for="valueD">Shipping fee per kg:</label>
+            <input type="number" id="valueD" placeholder="Enter shipping fee per kg" value="30">
+        </div>
+        <div class="form-group">
+            <label for="valueE">CAD/Toman conversion:</label>
+            <input type="number" id="valueE" placeholder="Enter CAD/Toman conversion" value="42500">
+        </div>
+        <div class="result">
+            <label for="result">Price (Toman):</label>
+            <input type="text" id="result" class="result-box" readonly placeholder="Result will be displayed here">
+        </div>
     </div>
     <script>
         function calculate() {
@@ -83,10 +96,14 @@
                 return;
             }
 
-            let result = (a * 1.13 * b + c * d /1000) * e;
+            let result = (a * 1.13 * b + c * d / 1000) * e;
             let roundedResult = Math.round(result / 10000) * 10000;
-            document.getElementById('result').value = 'Result: ' + roundedResult;
+            document.getElementById('result').value = roundedResult;
         }
+
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', calculate);
+        });
     </script>
 </body>
 </html>
